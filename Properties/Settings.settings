@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Server_Wrapper.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ramMin" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1024</Value>
+    </Setting>
+    <Setting Name="ramMax" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1024</Value>
+    </Setting>
+    <Setting Name="serverFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">server.jar</Value>
+    </Setting>
+    <Setting Name="ramUnit" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MB</Value>
+    </Setting>
+    <Setting Name="jvm_args" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-Xmx{ramMin} -Xms{ramMax} -jar {serverJar} nogui</Value>
+    </Setting>
+    <Setting Name="java_path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Java</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
