@@ -31,7 +31,7 @@ namespace Server_Wrapper.Forms {
 
         private void resetBtn_Click(object sender, EventArgs e) {
             if (MessageBox.Show("Confirm reset?", "Reset", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                string def = "-Xmx{ramMin} -Xms{ramMax} -jar {serverJar} nogui";
+                string def = "-Xmx{ramMax} -Xms{ramMin} -jar {serverJar} nogui";
                 flagtxtBox.Text = def;
                 Properties.Settings.Default.jvm_args = def;
                 Properties.Settings.Default.Save();

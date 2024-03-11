@@ -43,6 +43,7 @@
             this.scrollBox = new System.Windows.Forms.CheckBox();
             this.restartBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.ramUsageLabel = new System.Windows.Forms.Label();
             this.conMenu.SuspendLayout();
             this.mainStrip.SuspendLayout();
             this.SuspendLayout();
@@ -232,18 +233,28 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(9, 30);
+            this.label1.Font = new System.Drawing.Font("Corbel", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 29);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 18);
+            this.label1.Size = new System.Drawing.Size(85, 26);
             this.label1.TabIndex = 13;
             this.label1.Text = "Console";
+            // 
+            // ramUsageLabel
+            // 
+            this.ramUsageLabel.AutoSize = true;
+            this.ramUsageLabel.Location = new System.Drawing.Point(194, 33);
+            this.ramUsageLabel.Name = "ramUsageLabel";
+            this.ramUsageLabel.Size = new System.Drawing.Size(79, 13);
+            this.ramUsageLabel.TabIndex = 16;
+            this.ramUsageLabel.Text = "Memory usage:";
             // 
             // MainFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 421);
+            this.Controls.Add(this.ramUsageLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.restartBtn);
             this.Controls.Add(this.scrollBox);
@@ -258,7 +269,7 @@
             this.MainMenuStrip = this.mainStrip;
             this.MinimumSize = new System.Drawing.Size(800, 460);
             this.Name = "MainFrm";
-            this.Text = "Server Wrapper";
+            this.Text = "Arctic_\'s Server GUI";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFrm_FormClosing);
             this.conMenu.ResumeLayout(false);
             this.mainStrip.ResumeLayout(false);
@@ -288,6 +299,7 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem flagsToolStripMenuItem;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label ramUsageLabel;
     }
 }
 

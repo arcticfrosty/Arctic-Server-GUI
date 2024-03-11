@@ -47,16 +47,17 @@ namespace Server_Wrapper.Forms {
             this.flagtxtBox.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.flagtxtBox.Location = new System.Drawing.Point(6, 19);
             this.flagtxtBox.Name = "flagtxtBox";
-            this.flagtxtBox.Size = new System.Drawing.Size(745, 179);
+            this.flagtxtBox.Size = new System.Drawing.Size(545, 179);
             this.flagtxtBox.TabIndex = 0;
             this.flagtxtBox.Text = "";
             // 
             // saveBtn
             // 
-            this.saveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.saveBtn.Location = new System.Drawing.Point(12, 299);
             this.saveBtn.Name = "saveBtn";
-            this.saveBtn.Size = new System.Drawing.Size(760, 50);
+            this.saveBtn.Size = new System.Drawing.Size(560, 50);
             this.saveBtn.TabIndex = 1;
             this.saveBtn.Text = "Save";
             this.saveBtn.UseVisualStyleBackColor = true;
@@ -64,8 +65,8 @@ namespace Server_Wrapper.Forms {
             // 
             // resetBtn
             // 
-            this.resetBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.resetBtn.Location = new System.Drawing.Point(87, 204);
+            this.resetBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.resetBtn.Location = new System.Drawing.Point(90, 204);
             this.resetBtn.Name = "resetBtn";
             this.resetBtn.Size = new System.Drawing.Size(75, 23);
             this.resetBtn.TabIndex = 2;
@@ -76,7 +77,7 @@ namespace Server_Wrapper.Forms {
             // helpBtn
             // 
             this.helpBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.helpBtn.Location = new System.Drawing.Point(6, 204);
+            this.helpBtn.Location = new System.Drawing.Point(9, 204);
             this.helpBtn.Name = "helpBtn";
             this.helpBtn.Size = new System.Drawing.Size(75, 23);
             this.helpBtn.TabIndex = 3;
@@ -90,7 +91,7 @@ namespace Server_Wrapper.Forms {
             | System.Windows.Forms.AnchorStyles.Right)));
             this.javaPathtxt.Location = new System.Drawing.Point(123, 13);
             this.javaPathtxt.Name = "javaPathtxt";
-            this.javaPathtxt.Size = new System.Drawing.Size(628, 20);
+            this.javaPathtxt.Size = new System.Drawing.Size(428, 20);
             this.javaPathtxt.TabIndex = 4;
             // 
             // label1
@@ -112,7 +113,7 @@ namespace Server_Wrapper.Forms {
             this.groupBox1.Controls.Add(this.resetBtn);
             this.groupBox1.Location = new System.Drawing.Point(12, 60);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(760, 233);
+            this.groupBox1.Size = new System.Drawing.Size(560, 233);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "JVM arguments";
@@ -125,7 +126,7 @@ namespace Server_Wrapper.Forms {
             this.groupBox2.Controls.Add(this.javaPathtxt);
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(760, 42);
+            this.groupBox2.Size = new System.Drawing.Size(560, 42);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Java";
@@ -134,12 +135,12 @@ namespace Server_Wrapper.Forms {
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 361);
+            this.ClientSize = new System.Drawing.Size(584, 361);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.saveBtn);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(800, 400);
+            this.MinimumSize = new System.Drawing.Size(600, 400);
             this.Name = "Jvm_args";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;

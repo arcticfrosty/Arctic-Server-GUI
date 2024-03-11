@@ -26,6 +26,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.ghLink = new System.Windows.Forms.LinkLabel();
+            this.srcCodeLink = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // textBox1
@@ -55,11 +56,24 @@
             this.ghLink.Text = "Github";
             this.ghLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ghLink_LinkClicked);
             // 
+            // srcCodeLink
+            // 
+            this.srcCodeLink.AutoSize = true;
+            this.srcCodeLink.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.srcCodeLink.Location = new System.Drawing.Point(56, 307);
+            this.srcCodeLink.Name = "srcCodeLink";
+            this.srcCodeLink.Size = new System.Drawing.Size(69, 13);
+            this.srcCodeLink.TabIndex = 2;
+            this.srcCodeLink.TabStop = true;
+            this.srcCodeLink.Text = "Source Code";
+            this.srcCodeLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.srcCodeLink_LinkClicked);
+            // 
             // About
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(544, 329);
+            this.Controls.Add(this.srcCodeLink);
             this.Controls.Add(this.ghLink);
             this.Controls.Add(this.textBox1);
             this.MaximizeBox = false;
@@ -77,5 +91,6 @@
 
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.LinkLabel ghLink;
+        private System.Windows.Forms.LinkLabel srcCodeLink;
     }
 }

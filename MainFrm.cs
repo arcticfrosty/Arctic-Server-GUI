@@ -15,9 +15,24 @@ namespace Server_Wrapper {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             txtInput.KeyDown += txtInput_KeyDown;
+
+            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+            timer.Interval = 1000;
+            timer.Tick += (s, e) => {
+                if (process != null && !process.HasExited) {
+                    process.Refresh();
+                    long memoryInBytes = process.WorkingSet64;
+                    int memoryInMegabytes = (int) memoryInBytes / 1048576;
+                    ramUsageLabel.Text = $"Memory usage: {memoryInMegabytes}MB";
+                } else {
+                    ramUsageLabel.Text = "Memory usage: 0MB";
+                }
+            };
+            timer.Start();
         }
 
         //Utils
+
         protected void execCmd() {
             if (process != null && !process.HasExited) {
                 process.StandardInput.WriteLine(txtInput.Text);
@@ -66,10 +81,10 @@ namespace Server_Wrapper {
 
                 txtOutput.Clear();
 
-                UpdateRichTextBox("================================================================================");
+                UpdateRichTextBox("==============================================================================================");
                 UpdateRichTextBox($"Server Directory: {serverJar}");
                 UpdateRichTextBox($"Allocated Ram: \t{ramMax}");
-                UpdateRichTextBox("================================================================================");
+                UpdateRichTextBox("==============================================================================================");
 
                 ProcessStartInfo startInfo = new ProcessStartInfo {
                     FileName = java_path,

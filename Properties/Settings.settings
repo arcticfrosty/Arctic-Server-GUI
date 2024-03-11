@@ -15,7 +15,7 @@
       <Value Profile="(Default)">MB</Value>
     </Setting>
     <Setting Name="jvm_args" Type="System.String" Scope="User">
-      <Value Profile="(Default)">-Xmx{ramMin} -Xms{ramMax} -jar {serverJar} nogui</Value>
+      <Value Profile="(Default)">-Xmx{ramMax} -Xms{ramMin} -jar {serverJar} nogui</Value>
     </Setting>
     <Setting Name="java_path" Type="System.String" Scope="User">
       <Value Profile="(Default)">Java</Value>
