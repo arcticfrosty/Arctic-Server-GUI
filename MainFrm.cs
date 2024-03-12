@@ -15,8 +15,7 @@ namespace Server_Wrapper {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             txtInput.KeyDown += txtInput_KeyDown;
-
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+            Timer timer = new Timer();
             timer.Interval = 1000;
             timer.Tick += (s, e) => {
                 if (process != null && !process.HasExited) {
@@ -56,6 +55,11 @@ namespace Server_Wrapper {
                 string rawdir = AppDomain.CurrentDomain.BaseDirectory;
                 string dir = rawdir.Replace("\\", "/");
 
+                if (dir.Contains(" ")) {
+                    MessageBox.Show("Your path contains space!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 int ramMinRaw = Properties.Settings.Default.ramMin;
                 int ramMaxRaw = Properties.Settings.Default.ramMax;
                 char ramUnit;
@@ -81,10 +85,10 @@ namespace Server_Wrapper {
 
                 txtOutput.Clear();
 
-                UpdateRichTextBox("==============================================================================================");
+                UpdateRichTextBox("=============================================================================================");
                 UpdateRichTextBox($"Server Directory: {serverJar}");
                 UpdateRichTextBox($"Allocated Ram: \t{ramMax}");
-                UpdateRichTextBox("==============================================================================================");
+                UpdateRichTextBox("=============================================================================================");
 
                 ProcessStartInfo startInfo = new ProcessStartInfo {
                     FileName = java_path,
@@ -183,7 +187,6 @@ namespace Server_Wrapper {
         }
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
             DialogResult message = MessageBox.Show("Do you want to exit?\nThis will force the server to terminate.", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
             if (message == DialogResult.Yes) {
                 if (process != null && !process.HasExited) {
                     process.Kill();
@@ -226,7 +229,6 @@ namespace Server_Wrapper {
             if (process != null && !process.HasExited) {
                 process.StandardInput.WriteLine("stop");
                 process.WaitForExit(5000);
-
                 if (!process.HasExited) {
                     process.Kill();
                 }
@@ -240,9 +242,7 @@ namespace Server_Wrapper {
                 killer.StartInfo.FileName = "taskkill";
                 killer.StartInfo.Arguments = $"/PID {process.Id} /T /F";
                 killer.Start();
-
                 process.Kill();
-
                 process = null;
                 UpdateRichTextBox($"[{timeStamp()}] [System] Process killed successfully.");
             } else {
