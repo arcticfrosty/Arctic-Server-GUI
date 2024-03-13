@@ -29,7 +29,7 @@ namespace Server_Wrapper.Forms {
                     MessageBox.Show("Save unsuccessful!\nMinimum RAM should be lower or equal to the maximum!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 } else {
                     Properties.Settings.Default.Save();
-                    MessageBox.Show("Save successful.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Save successful.\nPlease restart the server.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
             } catch {

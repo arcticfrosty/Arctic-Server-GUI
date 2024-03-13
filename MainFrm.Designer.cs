@@ -44,6 +44,8 @@
             this.restartBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.ramUsageLabel = new System.Windows.Forms.Label();
+            this.ramBar = new System.Windows.Forms.ProgressBar();
+            this.statLabel = new System.Windows.Forms.Label();
             this.conMenu.SuspendLayout();
             this.mainStrip.SuspendLayout();
             this.SuspendLayout();
@@ -68,11 +70,11 @@
             this.txtOutput.ContextMenuStrip = this.conMenu;
             this.txtOutput.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtOutput.ForeColor = System.Drawing.SystemColors.Window;
-            this.txtOutput.Location = new System.Drawing.Point(12, 58);
+            this.txtOutput.Location = new System.Drawing.Point(12, 85);
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.ReadOnly = true;
             this.txtOutput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.txtOutput.Size = new System.Drawing.Size(760, 320);
+            this.txtOutput.Size = new System.Drawing.Size(760, 293);
             this.txtOutput.TabIndex = 3;
             this.txtOutput.Text = "";
             // 
@@ -185,7 +187,7 @@
             // stopBtn
             // 
             this.stopBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.stopBtn.Location = new System.Drawing.Point(566, 27);
+            this.stopBtn.Location = new System.Drawing.Point(672, 54);
             this.stopBtn.Name = "stopBtn";
             this.stopBtn.Size = new System.Drawing.Size(100, 25);
             this.stopBtn.TabIndex = 8;
@@ -197,7 +199,7 @@
             // 
             this.killBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.killBtn.ForeColor = System.Drawing.Color.Red;
-            this.killBtn.Location = new System.Drawing.Point(354, 27);
+            this.killBtn.Location = new System.Drawing.Point(566, 54);
             this.killBtn.Name = "killBtn";
             this.killBtn.Size = new System.Drawing.Size(100, 25);
             this.killBtn.TabIndex = 9;
@@ -221,7 +223,7 @@
             // restartBtn
             // 
             this.restartBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.restartBtn.Location = new System.Drawing.Point(460, 27);
+            this.restartBtn.Location = new System.Drawing.Point(566, 27);
             this.restartBtn.Name = "restartBtn";
             this.restartBtn.Size = new System.Drawing.Size(100, 25);
             this.restartBtn.TabIndex = 12;
@@ -231,31 +233,61 @@
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(168, 26);
+            this.label1.Size = new System.Drawing.Size(168, 52);
             this.label1.TabIndex = 13;
             this.label1.Text = "Server Console";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ramUsageLabel
             // 
-            this.ramUsageLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.ramUsageLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ramUsageLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ramUsageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ramUsageLabel.Location = new System.Drawing.Point(186, 27);
             this.ramUsageLabel.Name = "ramUsageLabel";
-            this.ramUsageLabel.Size = new System.Drawing.Size(162, 26);
+            this.ramUsageLabel.Size = new System.Drawing.Size(342, 26);
             this.ramUsageLabel.TabIndex = 16;
             this.ramUsageLabel.Text = "Memory usage:";
             this.ramUsageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // ramBar
+            // 
+            this.ramBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ramBar.BackColor = System.Drawing.SystemColors.Control;
+            this.ramBar.Enabled = false;
+            this.ramBar.Location = new System.Drawing.Point(186, 56);
+            this.ramBar.MarqueeAnimationSpeed = 0;
+            this.ramBar.Name = "ramBar";
+            this.ramBar.Size = new System.Drawing.Size(374, 23);
+            this.ramBar.Step = 100;
+            this.ramBar.TabIndex = 17;
+            // 
+            // statLabel
+            // 
+            this.statLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.statLabel.BackColor = System.Drawing.Color.Red;
+            this.statLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.statLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statLabel.ForeColor = System.Drawing.Color.Transparent;
+            this.statLabel.Location = new System.Drawing.Point(534, 27);
+            this.statLabel.Name = "statLabel";
+            this.statLabel.Size = new System.Drawing.Size(26, 26);
+            this.statLabel.TabIndex = 18;
+            this.statLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 421);
+            this.Controls.Add(this.statLabel);
+            this.Controls.Add(this.ramBar);
             this.Controls.Add(this.ramUsageLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.restartBtn);
@@ -302,6 +334,8 @@
         private System.Windows.Forms.ToolStripMenuItem flagsToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label ramUsageLabel;
+        private System.Windows.Forms.ProgressBar ramBar;
+        private System.Windows.Forms.Label statLabel;
     }
 }
 

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace Server_Wrapper {
@@ -16,16 +17,61 @@ namespace Server_Wrapper {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             txtInput.KeyDown += txtInput_KeyDown;
+
+            bool i = false;
+            int maxRam;
+
             Timer timer = new Timer();
             timer.Interval = 1000;
             timer.Tick += (s, e) => {
                 if (process != null && !process.HasExited) {
                     process.Refresh();
+                    switch (Properties.Settings.Default.ramUnit) {
+                        case "GB":
+                        maxRam = Properties.Settings.Default.ramMax * 1024;
+                        break;
+                        case "MB":
+                        maxRam = Properties.Settings.Default.ramMax;
+                        break;
+                        default: throw new Exception("Unable to set Ram allocation!");
+                    }
+
                     long memoryInBytes = process.WorkingSet64;
-                    int memoryInMegabytes = (int) memoryInBytes / 1048576;
-                    ramUsageLabel.Text = $"Memory usage: {memoryInMegabytes}MB";
+                    int memoryInMegabytes = (int)memoryInBytes / 1048576;
+                    if (memoryInMegabytes <= maxRam) {
+                        ramUsageLabel.Text = $"Memory Usage: {memoryInMegabytes}MB / {maxRam}MB";
+                        ramUsageLabel.ForeColor = Color.Black;
+                    } else {
+                        int overloadRam = ((memoryInMegabytes - maxRam) * 100) / maxRam;
+                        ramUsageLabel.Text = $"Memory Usage: {memoryInMegabytes}MB / {maxRam}MB (+{overloadRam}% RAM Overload!)";
+                        if (i) {
+                            ramUsageLabel.ForeColor = Color.Red;
+                            i = false;
+                        } else {
+                            ramUsageLabel.ForeColor = Color.Black;
+                            i = true;
+                        }
+                    }
+
+                    int ramBarValue = (int)((memoryInMegabytes * 100) / maxRam);
+                    if (ramBarValue <= 100) {
+                        ramBar.Value = ramBarValue;
+                    } else {
+                        ramBar.Value = 100;
+                    }
                 } else {
-                    ramUsageLabel.Text = "Memory usage: 0MB";
+                    switch (Properties.Settings.Default.ramUnit) {
+                        case "GB":
+                        maxRam = Properties.Settings.Default.ramMax * 1024;
+                        break;
+                        case "MB":
+                        maxRam = Properties.Settings.Default.ramMax;
+                        break;
+                        default: throw new Exception("Unable to set Ram allocation!");
+                    }
+                    ramUsageLabel.ForeColor = Color.Black;
+                    ramUsageLabel.Text = $"Memory Usage: 0MB / {maxRam}MB";
+                    ramBar.Value = 0;
                 }
             };
             timer.Start();
@@ -60,6 +106,8 @@ namespace Server_Wrapper {
                     MessageBox.Show("Your path contains space!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+
+                statLabel.BackColor = Color.Yellow;
 
                 int ramMinRaw = Properties.Settings.Default.ramMin;
                 int ramMaxRaw = Properties.Settings.Default.ramMax;
@@ -103,8 +151,26 @@ namespace Server_Wrapper {
 
                 process = new Process { StartInfo = startInfo };
 
-                process.OutputDataReceived += (s, data) => UpdateRichTextBox(data.Data);
-                process.Exited += (s, data) => UpdateRichTextBox($"[{timeStamp()}] [System] Server is successfully stopped.");
+                process.OutputDataReceived += (s, data) => {
+                    UpdateRichTextBox(data.Data);
+                    if (data.Data != null && data.Data.Contains("Done (")) {
+                        UpdateRichTextBox($"[{timeStamp()}] [System] Server is successfully started.");
+                        statLabel.Invoke((MethodInvoker)delegate {
+                            statLabel.BackColor = Color.LimeGreen;
+                        });
+                    } else if (data.Data != null && data.Data.Contains("Stopping the server")) {
+                        statLabel.Invoke((MethodInvoker)delegate {
+                            statLabel.BackColor = Color.Yellow;
+                        });
+                    }
+                };
+
+                process.Exited += (s, data) => {
+                    UpdateRichTextBox($"[{timeStamp()}] [System] Server is successfully stopped.");
+                    statLabel.Invoke((MethodInvoker)delegate {
+                        statLabel.BackColor = Color.Red;
+                    });
+                };
 
                 cmdHistory.Clear();
 
@@ -239,9 +305,19 @@ namespace Server_Wrapper {
 
         private void killBtn_Click(object sender, EventArgs e) {
             if (process != null && !process.HasExited) {
-                Process killer = new Process();
-                killer.StartInfo.FileName = "taskkill";
-                killer.StartInfo.Arguments = $"/PID {process.Id} /T /F";
+                ProcessStartInfo startInfo = new ProcessStartInfo {
+                    FileName = "taskkill",
+                    Arguments = $"/PID {process.Id} /T /F",
+                    CreateNoWindow = true, // Prevents the console window from showing
+                    UseShellExecute = false, // Required for CreateNoWindow to work
+                    RedirectStandardOutput = true, // Redirect output to avoid pop-up
+                    RedirectStandardError = true // Redirect error output
+                };
+
+                Process killer = new Process {
+                    StartInfo = startInfo
+                };
+
                 killer.Start();
                 process.Kill();
                 process = null;
