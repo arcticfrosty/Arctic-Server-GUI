@@ -26,6 +26,7 @@ namespace Server_Wrapper.Forms {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             this.flagtxtBox = new System.Windows.Forms.RichTextBox();
             this.saveBtn = new System.Windows.Forms.Button();
             this.resetBtn = new System.Windows.Forms.Button();
@@ -34,8 +35,13 @@ namespace Server_Wrapper.Forms {
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.jvm_context = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.jvm_context.SuspendLayout();
             this.SuspendLayout();
             // 
             // flagtxtBox
@@ -44,6 +50,7 @@ namespace Server_Wrapper.Forms {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flagtxtBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.flagtxtBox.ContextMenuStrip = this.jvm_context;
             this.flagtxtBox.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.flagtxtBox.Location = new System.Drawing.Point(6, 19);
             this.flagtxtBox.Name = "flagtxtBox";
@@ -131,6 +138,36 @@ namespace Server_Wrapper.Forms {
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Java";
             // 
+            // jvm_context
+            // 
+            this.jvm_context.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cutToolStripMenuItem,
+            this.copyToolStripMenuItem,
+            this.pasteToolStripMenuItem});
+            this.jvm_context.Name = "jvm_context";
+            this.jvm_context.Size = new System.Drawing.Size(181, 92);
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyToolStripMenuItem.Text = "Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // pasteToolStripMenuItem
+            // 
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pasteToolStripMenuItem.Text = "Paste";
+            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
+            // 
+            // cutToolStripMenuItem
+            // 
+            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cutToolStripMenuItem.Text = "Cut";
+            this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
+            // 
             // Jvm_args
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -149,6 +186,7 @@ namespace Server_Wrapper.Forms {
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.jvm_context.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -163,5 +201,9 @@ namespace Server_Wrapper.Forms {
         private Label label1;
         private GroupBox groupBox1;
         private GroupBox groupBox2;
+        private ContextMenuStrip jvm_context;
+        private ToolStripMenuItem copyToolStripMenuItem;
+        private ToolStripMenuItem pasteToolStripMenuItem;
+        private ToolStripMenuItem cutToolStripMenuItem;
     }
 }

@@ -44,5 +44,23 @@ namespace Server_Wrapper.Forms {
                 "\n{maxRam} is the maximum Ram allocated to your server." +
                 "\n{serverJar} is the name of your JAR file.", "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (!string.IsNullOrEmpty(flagtxtBox.SelectedText)) {
+                flagtxtBox.Copy();
+            }
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (!string.IsNullOrEmpty(Clipboard.GetText())) {
+                flagtxtBox.Paste();
+            }
+        }
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (!string.IsNullOrEmpty(flagtxtBox.SelectedText)) {
+                flagtxtBox.Cut();
+            }
+        }
     }
 }

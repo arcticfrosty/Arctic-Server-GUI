@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Server_Wrapper {
@@ -182,7 +183,7 @@ namespace Server_Wrapper {
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e) {
             if (!string.IsNullOrEmpty(txtOutput.SelectedText)) {
-                Clipboard.SetText(txtOutput.SelectedText);
+                txtOutput.Copy();
             }
         }
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) {

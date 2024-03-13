@@ -65,7 +65,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtOutput.BackColor = System.Drawing.SystemColors.MenuText;
-            this.txtOutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtOutput.ContextMenuStrip = this.conMenu;
             this.txtOutput.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtOutput.ForeColor = System.Drawing.SystemColors.Window;
@@ -233,21 +232,24 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Corbel", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 29);
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 26);
+            this.label1.Size = new System.Drawing.Size(168, 26);
             this.label1.TabIndex = 13;
-            this.label1.Text = "Console";
+            this.label1.Text = "Server Console";
             // 
             // ramUsageLabel
             // 
-            this.ramUsageLabel.AutoSize = true;
-            this.ramUsageLabel.Location = new System.Drawing.Point(194, 33);
+            this.ramUsageLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.ramUsageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ramUsageLabel.Location = new System.Drawing.Point(186, 27);
             this.ramUsageLabel.Name = "ramUsageLabel";
-            this.ramUsageLabel.Size = new System.Drawing.Size(79, 13);
+            this.ramUsageLabel.Size = new System.Drawing.Size(162, 26);
             this.ramUsageLabel.TabIndex = 16;
             this.ramUsageLabel.Text = "Memory usage:";
+            this.ramUsageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MainFrm
             // 
