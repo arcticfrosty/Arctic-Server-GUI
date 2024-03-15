@@ -1,9 +1,9 @@
 ﻿using Server_Wrapper.Forms;
+using Server_Wrapper.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace Server_Wrapper {
@@ -13,29 +13,19 @@ namespace Server_Wrapper {
         private List<string> cmdHistory = new List<string>();
         private int cmdIndex = 0;
 
+        //Main Function
         public MainFrm() {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             txtInput.KeyDown += txtInput_KeyDown;
-
             bool i = false;
             int maxRam;
-
             Timer timer = new Timer();
             timer.Interval = 1000;
             timer.Tick += (s, e) => {
                 if (process != null && !process.HasExited) {
                     process.Refresh();
-                    switch (Properties.Settings.Default.ramUnit) {
-                        case "GB":
-                        maxRam = Properties.Settings.Default.ramMax * 1024;
-                        break;
-                        case "MB":
-                        maxRam = Properties.Settings.Default.ramMax;
-                        break;
-                        default: throw new Exception("Unable to set Ram allocation!");
-                    }
-
+                    maxRam = Util.getRamInMB();
                     long memoryInBytes = process.WorkingSet64;
                     int memoryInMegabytes = (int)memoryInBytes / 1048576;
                     if (memoryInMegabytes <= maxRam) {
@@ -52,7 +42,6 @@ namespace Server_Wrapper {
                             i = true;
                         }
                     }
-
                     int ramBarValue = (int)((memoryInMegabytes * 100) / maxRam);
                     if (ramBarValue <= 100) {
                         ramBar.Value = ramBarValue;
@@ -60,15 +49,7 @@ namespace Server_Wrapper {
                         ramBar.Value = 100;
                     }
                 } else {
-                    switch (Properties.Settings.Default.ramUnit) {
-                        case "GB":
-                        maxRam = Properties.Settings.Default.ramMax * 1024;
-                        break;
-                        case "MB":
-                        maxRam = Properties.Settings.Default.ramMax;
-                        break;
-                        default: throw new Exception("Unable to set Ram allocation!");
-                    }
+                    maxRam = Util.getRamInMB();
                     ramUsageLabel.ForeColor = Color.Black;
                     ramUsageLabel.Text = $"Memory Usage: 0MB / {maxRam}MB";
                     ramBar.Value = 0;
@@ -77,9 +58,9 @@ namespace Server_Wrapper {
             timer.Start();
         }
 
-        //Utils
+        //Util
 
-        protected void execCmd() {
+        protected void cmdExecute() {
             if (process != null && !process.HasExited) {
                 process.StandardInput.WriteLine(txtInput.Text);
                 if (!cmdHistory.Contains(txtInput.Text)) {
@@ -94,51 +75,28 @@ namespace Server_Wrapper {
                 txtInput.Clear();
                 MessageBox.Show("Server is offline!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
-
         private void startServer() {
             if (process == null || process.HasExited) {
                 string rawdir = AppDomain.CurrentDomain.BaseDirectory;
                 string dir = rawdir.Replace("\\", "/");
-
                 if (dir.Contains(" ")) {
                     MessageBox.Show("Your path contains space!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-
                 statLabel.BackColor = Color.Yellow;
-
                 int ramMinRaw = Properties.Settings.Default.ramMin;
                 int ramMaxRaw = Properties.Settings.Default.ramMax;
-                char ramUnit;
+                char ramUnit = Util.getRamUnit();
                 string serverFile = Properties.Settings.Default.serverFile;
                 string serverJar = $"{dir}{serverFile}";
-
-                switch (Properties.Settings.Default.ramUnit) {
-                    case "GB":
-                    ramUnit = 'G';
-                    break;
-                    case "MB":
-                    ramUnit = 'M';
-                    break;
-                    default: throw new Exception("Unable to set Ram allocation!");
-                }
-
                 string ramMin = $"{ramMinRaw}{ramUnit}";
                 string ramMax = $"{ramMaxRaw}{ramUnit}";
-
                 string java_path = Properties.Settings.Default.java_path;
-
                 string jvm_args = Properties.Settings.Default.jvm_args;
-
                 txtOutput.Clear();
-
-                UpdateRichTextBox("=============================================================================================");
                 UpdateRichTextBox($"Server Directory: {serverJar}");
-                UpdateRichTextBox($"Allocated Ram: \t{ramMax}");
-                UpdateRichTextBox("=============================================================================================");
-
+                UpdateRichTextBox($"Allocated Ram: \t{ramMax}\n");
                 ProcessStartInfo startInfo = new ProcessStartInfo {
                     FileName = java_path,
                     Arguments = jvm_args.Replace("{ramMin}", ramMin).Replace("{ramMax}", ramMax).Replace("{serverJar}", serverJar),
@@ -148,9 +106,7 @@ namespace Server_Wrapper {
                     CreateNoWindow = true,
                     WorkingDirectory = dir
                 };
-
                 process = new Process { StartInfo = startInfo };
-
                 process.OutputDataReceived += (s, data) => {
                     UpdateRichTextBox(data.Data);
                     if (data.Data != null && data.Data.Contains("Done (")) {
@@ -164,16 +120,13 @@ namespace Server_Wrapper {
                         });
                     }
                 };
-
                 process.Exited += (s, data) => {
                     UpdateRichTextBox($"[{timeStamp()}] [System] Server is successfully stopped.");
                     statLabel.Invoke((MethodInvoker)delegate {
                         statLabel.BackColor = Color.Red;
                     });
                 };
-
                 cmdHistory.Clear();
-
                 process.EnableRaisingEvents = true;
                 process.Start();
                 process.BeginOutputReadLine();
@@ -181,22 +134,6 @@ namespace Server_Wrapper {
                 MessageBox.Show("Server is already running!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        protected static void showFrm(Form frm, bool resize) {
-            frm.StartPosition = FormStartPosition.CenterScreen;
-            if (!resize) {
-                frm.FormBorderStyle = FormBorderStyle.FixedSingle;
-            }
-            frm.Show();
-        }
-        protected static void showDiag(Form frm, bool resize) {
-            frm.StartPosition = FormStartPosition.CenterScreen;
-            if (!resize) {
-                frm.FormBorderStyle = FormBorderStyle.FixedSingle;
-            }
-            frm.ShowDialog();
-        }
-
         private void UpdateRichTextBox(string text) {
             if (InvokeRequired) {
                 Invoke(new Action<string>(UpdateRichTextBox), new object[] { text });
@@ -208,25 +145,22 @@ namespace Server_Wrapper {
                 txtOutput.ScrollToCaret();
             }
         }
-
         private static string timeStamp() {
             string time = DateTime.Now.ToString("HH:mm:ss");
             return time;
         }
 
-        //Buttons
+        //Buttons and Others
 
         private void sendBtn_Click(object sender, EventArgs e) {
-            execCmd();
+            cmdExecute();
         }
-
         private void clearBtn_Click(object sender, EventArgs e) {
             txtInput.Clear();
         }
-
         private void txtInput_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Enter) {
-                execCmd();
+                cmdExecute();
                 e.SuppressKeyPress = true;
             }
             if (process != null && !process.HasExited) {
@@ -246,7 +180,6 @@ namespace Server_Wrapper {
                 txtInput.SelectionStart = txtInput.Text.Length;
             }
         }
-
         private void copyToolStripMenuItem_Click(object sender, EventArgs e) {
             if (!string.IsNullOrEmpty(txtOutput.SelectedText)) {
                 txtOutput.Copy();
@@ -263,9 +196,8 @@ namespace Server_Wrapper {
         }
         private void globalSettingToolStripMenuItem_Click(object sender, EventArgs e) {
             Form frm = new Server_Settings();
-            showDiag(frm, false);
+            Util.showFrm(frm, true, true);
         }
-
         private void MainFrm_FormClosing(object sender, FormClosingEventArgs e) {
             if (e.CloseReason == CloseReason.UserClosing) {
                 DialogResult message = MessageBox.Show("Do you want to exit?\nThis will force the server to terminate.", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -276,14 +208,13 @@ namespace Server_Wrapper {
                         process.Kill();
                     }
                     this.FormClosing -= MainFrm_FormClosing;
+                    Application.Exit();
                 }
             }
         }
-
         private void startBtn_Click(object sender, EventArgs e) {
             startServer();
         }
-
         private void stopBtn_Click(object sender, EventArgs e) {
             if (process != null && !process.HasExited) {
                 process.StandardInput.WriteLine("stop");
@@ -291,7 +222,6 @@ namespace Server_Wrapper {
                 MessageBox.Show("Server is offline!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void restartBtn_Click(object sender, EventArgs e) {
             if (process != null && !process.HasExited) {
                 process.StandardInput.WriteLine("stop");
@@ -302,22 +232,19 @@ namespace Server_Wrapper {
             }
             startServer();
         }
-
         private void killBtn_Click(object sender, EventArgs e) {
             if (process != null && !process.HasExited) {
                 ProcessStartInfo startInfo = new ProcessStartInfo {
                     FileName = "taskkill",
                     Arguments = $"/PID {process.Id} /T /F",
-                    CreateNoWindow = true, // Prevents the console window from showing
-                    UseShellExecute = false, // Required for CreateNoWindow to work
-                    RedirectStandardOutput = true, // Redirect output to avoid pop-up
-                    RedirectStandardError = true // Redirect error output
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
                 };
-
                 Process killer = new Process {
                     StartInfo = startInfo
                 };
-
                 killer.Start();
                 process.Kill();
                 process = null;
@@ -326,15 +253,13 @@ namespace Server_Wrapper {
                 MessageBox.Show("Server is offline!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
             Form frm = new About();
-            showDiag(frm, true);
+            Util.showFrm(frm, true, true);
         }
-
         private void jvm_settingToolStripMenuItem_Click(object sender, EventArgs e) {
             Form frm = new Forms.Jvm_args();
-            showDiag(frm, true);
+            Util.showFrm(frm, true, true);
         }
     }
 }

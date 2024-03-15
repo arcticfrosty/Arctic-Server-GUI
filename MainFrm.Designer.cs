@@ -66,6 +66,7 @@
             this.txtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtOutput.AutoWordSelection = true;
             this.txtOutput.BackColor = System.Drawing.SystemColors.MenuText;
             this.txtOutput.ContextMenuStrip = this.conMenu;
             this.txtOutput.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -73,10 +74,12 @@
             this.txtOutput.Location = new System.Drawing.Point(12, 85);
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.ReadOnly = true;
-            this.txtOutput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.txtOutput.ShortcutsEnabled = false;
             this.txtOutput.Size = new System.Drawing.Size(760, 293);
             this.txtOutput.TabIndex = 3;
+            this.txtOutput.TabStop = false;
             this.txtOutput.Text = "";
+            this.txtOutput.WordWrap = false;
             // 
             // conMenu
             // 
