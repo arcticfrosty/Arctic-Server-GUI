@@ -6,7 +6,6 @@ namespace Server_Wrapper.Forms {
         public Jvm_args() {
             InitializeComponent();
         }
-
         private void Jvm_args_Load(object sender, EventArgs e) {
             flagtxtBox.Text = Properties.Settings.Default.jvm_args;
             if (Properties.Settings.Default.java_path == "Java") {
@@ -15,7 +14,6 @@ namespace Server_Wrapper.Forms {
                 javaPathtxt.Text = Properties.Settings.Default.java_path;
             }
         }
-
         private void saveBtn_Click(object sender, EventArgs e) {
             if (MessageBox.Show("Confirm save?", "Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                 Properties.Settings.Default.jvm_args = flagtxtBox.Text;
@@ -28,7 +26,6 @@ namespace Server_Wrapper.Forms {
                 MessageBox.Show("Saved sucessfully.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
         private void resetBtn_Click(object sender, EventArgs e) {
             if (MessageBox.Show("Confirm reset?", "Reset", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                 string def = "-Xmx{ramMax} -Xms{ramMin} -jar {serverJar} nogui";
@@ -38,25 +35,21 @@ namespace Server_Wrapper.Forms {
                 MessageBox.Show("Arguments has been reset.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
         private void helpBtn_Click(object sender, EventArgs e) {
             MessageBox.Show("{minRam} is the minimum Ram allocated to your server." +
                 "\n{maxRam} is the maximum Ram allocated to your server." +
                 "\n{serverJar} is the name of your JAR file.", "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
         private void copyToolStripMenuItem_Click(object sender, EventArgs e) {
             if (!string.IsNullOrEmpty(flagtxtBox.SelectedText)) {
                 flagtxtBox.Copy();
             }
         }
-
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e) {
             if (!string.IsNullOrEmpty(Clipboard.GetText())) {
                 flagtxtBox.Paste();
             }
         }
-
         private void cutToolStripMenuItem_Click(object sender, EventArgs e) {
             if (!string.IsNullOrEmpty(flagtxtBox.SelectedText)) {
                 flagtxtBox.Cut();
