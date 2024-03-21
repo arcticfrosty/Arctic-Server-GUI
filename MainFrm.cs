@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Server_Wrapper {
@@ -14,6 +15,7 @@ namespace Server_Wrapper {
         private int cmdIndex = 0;
 
         //Main Function
+
         public MainFrm() {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -25,7 +27,7 @@ namespace Server_Wrapper {
             timer.Tick += (s, e) => {
                 if (process != null && !process.HasExited) {
                     process.Refresh();
-                    maxRam = Util.getRamInMB();
+                    maxRam = Utils.getRamInMB();
                     long memoryInBytes = process.WorkingSet64;
                     int memoryInMegabytes = (int)memoryInBytes / 1048576;
                     if (memoryInMegabytes <= maxRam) {
@@ -49,7 +51,7 @@ namespace Server_Wrapper {
                         ramBar.Value = 100;
                     }
                 } else {
-                    maxRam = Util.getRamInMB();
+                    maxRam = Utils.getRamInMB();
                     ramUsageLabel.ForeColor = Color.Black;
                     ramUsageLabel.Text = $"Memory Usage: 0MB / {maxRam}MB";
                     ramBar.Value = 0;
@@ -62,7 +64,8 @@ namespace Server_Wrapper {
 
         protected void cmdExecute() {
             if (process != null && !process.HasExited) {
-                process.StandardInput.WriteLine(txtInput.Text);
+                string input = txtInput.Text.Replace("/", "");
+                process.StandardInput.WriteLine(input);
                 if (!cmdHistory.Contains(txtInput.Text)) {
                     if (cmdHistory.Count >= 32) {
                         cmdHistory.RemoveAt(0);
@@ -76,18 +79,35 @@ namespace Server_Wrapper {
                 MessageBox.Show("Server is offline!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void startServer() {
+        protected void startServer() {
             if (process == null || process.HasExited) {
-                string rawdir = AppDomain.CurrentDomain.BaseDirectory;
-                string dir = rawdir.Replace("\\", "/");
+                string rawDir = AppDomain.CurrentDomain.BaseDirectory;
+                string dir = rawDir.Replace("\\", "/");
                 if (dir.Contains(" ")) {
                     MessageBox.Show("Your path contains space!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 statLabel.BackColor = Color.Yellow;
+                string eulaPath = $"{dir}";
+                string eulaFile = "eula.txt";
+                string fulleulaPath = Path.Combine(eulaPath, eulaFile);
+                if (!File.Exists(fulleulaPath)) {
+                    if (MessageBox.Show("Do you agree to Mojang EULA?.\nGo to https://account.mojang.com/documents/minecraft_eula for more info.",
+                        "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                        using (StreamWriter sw = File.CreateText(fulleulaPath)) {
+                            sw.WriteLine("#By changing the setting below to TRUE you are indicating your agreement to our EULA (https://account.mojang.com/documents/minecraft_eula).");
+                            sw.WriteLine("eula=true");
+                        }
+                    } else {
+                        statLabel.Invoke((MethodInvoker)delegate {
+                            statLabel.BackColor = Color.Red;
+                        });
+                        return;
+                    }
+                }
                 int ramMinRaw = Properties.Settings.Default.ramMin;
                 int ramMaxRaw = Properties.Settings.Default.ramMax;
-                char ramUnit = Util.getRamUnit();
+                char ramUnit = Utils.getRamUnit();
                 string serverFile = Properties.Settings.Default.serverFile;
                 string serverJar = $"{dir}{serverFile}";
                 string ramMin = $"{ramMinRaw}{ramUnit}";
@@ -95,11 +115,14 @@ namespace Server_Wrapper {
                 string java_path = Properties.Settings.Default.java_path;
                 string jvm_args = Properties.Settings.Default.jvm_args;
                 txtOutput.Clear();
-                UpdateRichTextBox($"Server Directory: {serverJar}");
-                UpdateRichTextBox($"Allocated Ram: \t{ramMax}\n");
+                updateRichTextBox($"Server Directory: {serverJar}");
+                updateRichTextBox($"Allocated Ram: \t{ramMax}\n");
                 ProcessStartInfo startInfo = new ProcessStartInfo {
                     FileName = java_path,
-                    Arguments = jvm_args.Replace("{ramMin}", ramMin).Replace("{ramMax}", ramMax).Replace("{serverJar}", serverJar),
+                    Arguments = jvm_args
+                    .Replace("{ramMin}", ramMin)
+                    .Replace("{ramMax}", ramMax)
+                    .Replace("{serverJar}", serverJar),
                     RedirectStandardInput = true,
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
@@ -108,9 +131,11 @@ namespace Server_Wrapper {
                 };
                 process = new Process { StartInfo = startInfo };
                 process.OutputDataReceived += (s, data) => {
-                    UpdateRichTextBox(data.Data);
+                    if (!string.IsNullOrEmpty(data.Data)) {
+                        updateRichTextBox(data.Data);
+                    }
                     if (data.Data != null && data.Data.Contains("Done (")) {
-                        UpdateRichTextBox($"[{timeStamp()}] [System] Server is successfully started.");
+                        updateRichTextBox($"[{Utils.timeStamp()} INFO]: Server is successfully started.");
                         statLabel.Invoke((MethodInvoker)delegate {
                             statLabel.BackColor = Color.LimeGreen;
                         });
@@ -121,7 +146,7 @@ namespace Server_Wrapper {
                     }
                 };
                 process.Exited += (s, data) => {
-                    UpdateRichTextBox($"[{timeStamp()}] [System] Server is successfully stopped.");
+                    updateRichTextBox($"[{Utils.timeStamp()} INFO]: Server is successfully stopped.");
                     statLabel.Invoke((MethodInvoker)delegate {
                         statLabel.BackColor = Color.Red;
                     });
@@ -131,12 +156,13 @@ namespace Server_Wrapper {
                 process.Start();
                 process.BeginOutputReadLine();
             } else {
-                MessageBox.Show("Server is already running!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Server is already running!", "Error!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void UpdateRichTextBox(string text) {
+        protected void updateRichTextBox(string text) {
             if (InvokeRequired) {
-                Invoke(new Action<string>(UpdateRichTextBox), new object[] { text });
+                Invoke(new Action<string>(updateRichTextBox), new object[] { text });
                 return;
             }
             txtOutput.AppendText(text + Environment.NewLine);
@@ -144,10 +170,6 @@ namespace Server_Wrapper {
                 txtOutput.SelectionStart = txtOutput.Text.Length;
                 txtOutput.ScrollToCaret();
             }
-        }
-        private static string timeStamp() {
-            string time = DateTime.Now.ToString("HH:mm:ss");
-            return time;
         }
 
         //Buttons and Others
@@ -186,7 +208,9 @@ namespace Server_Wrapper {
             }
         }
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
-            DialogResult message = MessageBox.Show("Do you want to exit?\nThis will force the server to terminate.", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult message = MessageBox.Show("Do you want to exit?" +
+                "\nThis will force the server to terminate.",
+                "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (message == DialogResult.Yes) {
                 if (process != null && !process.HasExited) {
                     process.Kill();
@@ -196,11 +220,13 @@ namespace Server_Wrapper {
         }
         private void globalSettingToolStripMenuItem_Click(object sender, EventArgs e) {
             Form frm = new Server_Settings();
-            Util.showFrm(frm, true, true);
+            Utils.showFrm(frm, true, true);
         }
         private void MainFrm_FormClosing(object sender, FormClosingEventArgs e) {
             if (e.CloseReason == CloseReason.UserClosing) {
-                DialogResult message = MessageBox.Show("Do you want to exit?\nThis will force the server to terminate.", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult message = MessageBox.Show("Do you want to exit?" +
+                    "\nThis will force the server to terminate.", "Exit",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (message == DialogResult.No) {
                     e.Cancel = true;
                 } else {
@@ -219,7 +245,8 @@ namespace Server_Wrapper {
             if (process != null && !process.HasExited) {
                 process.StandardInput.WriteLine("stop");
             } else {
-                MessageBox.Show("Server is offline!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Server is offline!", "Error!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void restartBtn_Click(object sender, EventArgs e) {
@@ -248,18 +275,19 @@ namespace Server_Wrapper {
                 killer.Start();
                 process.Kill();
                 process = null;
-                UpdateRichTextBox($"[{timeStamp()}] [System] Process killed successfully.");
+                updateRichTextBox($"[{Utils.timeStamp()}] [System] Process killed successfully.");
             } else {
-                MessageBox.Show("Server is offline!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Server is offline!", "Error!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
             Form frm = new About();
-            Util.showFrm(frm, true, true);
+            Utils.showFrm(frm, false, true);
         }
         private void jvm_settingToolStripMenuItem_Click(object sender, EventArgs e) {
-            Form frm = new Forms.Jvm_args();
-            Util.showFrm(frm, true, true);
+            Form frm = new Jvm_args();
+            Utils.showFrm(frm, true, true);
         }
     }
 }

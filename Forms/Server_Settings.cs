@@ -52,8 +52,8 @@ namespace Server_Wrapper.Forms {
                 switch (ramUnit.SelectedItem.ToString()) {
                     case "GB":
                     if (min > 0 && max > 0) {
-                        ramMin.Text = (min / 1024)>1?(min / 1024).ToString():"1";
-                        ramMax.Text = (max / 1024)>1?(max / 1024).ToString():"1";
+                        ramMin.Text = (min / 1024) > 1 ? (min / 1024).ToString() : "1";
+                        ramMax.Text = (max / 1024) > 1 ? (max / 1024).ToString() : "1";
                     } else {
                         ramMin.Text = "1";
                         ramMax.Text = "1";
