@@ -255,7 +255,7 @@
             this.ramUsageLabel.Name = "ramUsageLabel";
             this.ramUsageLabel.Size = new System.Drawing.Size(342, 26);
             this.ramUsageLabel.TabIndex = 16;
-            this.ramUsageLabel.Text = "Memory usage:";
+            this.ramUsageLabel.Text = "Memory Usage:";
             this.ramUsageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ramBar

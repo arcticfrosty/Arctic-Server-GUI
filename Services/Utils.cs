@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-using System.Text.RegularExpressions;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Server_Wrapper.Services {
     public class Utils {
 
-        public static void showFrm(Form frm, bool resize, bool diag) {
+        public static void showFrm(Form frm , bool resize , bool diag) {
             if (frm != null) {
                 frm.StartPosition = FormStartPosition.CenterScreen;
                 if (!resize) {
@@ -28,13 +26,13 @@ namespace Server_Wrapper.Services {
             if (ram > 0) {
                 switch (unit) {
                     case "GB":
-                    total = ram * 1024;
-                    break;
+                        total = ram * 1024;
+                        break;
                     case "MB":
-                    total = ram;
-                    break;
+                        total = ram;
+                        break;
                     default:
-                    throw new Exception("Unable to get RAM allocation.");
+                        throw new Exception("Unable to get RAM allocation.");
                 }
             } else {
                 throw new Exception("Unable to get RAM allocation.");
@@ -46,13 +44,13 @@ namespace Server_Wrapper.Services {
             char unit;
             switch (ramUnit) {
                 case "GB":
-                unit = 'G';
-                break;
+                    unit = 'G';
+                    break;
                 case "MB":
-                unit = 'M';
-                break;
+                    unit = 'M';
+                    break;
                 default:
-                throw new Exception("Unable to get RAM unit.");
+                    throw new Exception("Unable to get RAM unit.");
             }
             return unit;
         }
@@ -60,51 +58,24 @@ namespace Server_Wrapper.Services {
             string time = DateTime.Now.ToString("HH:mm:ss");
             return time;
         }
+        /*
         public static string removeColorCodes(string input) {
             string pattern = @"\x1B\[[^@-~]*[@-~]";
-            return Regex.Replace(input, pattern, "");
+            return Regex.Replace(input , pattern , "");
         }
-        //public static void applyMinecraftColorCodes(RichTextBox rtb, string text) {
-        //    // Define color mappings
-        //    Dictionary<string, Color> colors = new Dictionary<string, Color> {
-        //        { "§0", Color.Black },      // Black
-        //        { "§1", Color.DarkBlue },   // Dark Blue
-        //        { "§2", Color.DarkGreen },  // Dark Green
-        //        { "§3", Color.DarkCyan },   // Dark Aqua
-        //        { "§4", Color.DarkRed },    // Dark Red
-        //        { "§5", Color.DarkMagenta },// Dark Purple
-        //        { "§6", Color.Gold },       // Gold
-        //        { "§7", Color.Gray },       // Gray
-        //        { "§8", Color.DarkGray },   // Dark Gray
-        //        { "§9", Color.Blue },       // Blue
-        //        { "§a", Color.Green },      // Green
-        //        { "§b", Color.Aqua },       // Aqua
-        //        { "§c", Color.Red },        // Red
-        //        { "§d", Color.Magenta },    // Light Purple
-        //        { "§e", Color.Yellow },     // Yellow
-        //        { "§f", Color.White }       // White
-        //    };
-
-        //    // Split the text into parts
-        //    string[] parts = Regex.Split(text, "(§.)");
-
-        //    foreach (string part in parts) {
-        //        // Determine the color for this part
-        //        Color color;
-        //        if (colors.ContainsKey(part)) {
-        //            color = colors[part];
-        //            continue;  // Skip color codes
-        //        } else {
-        //            color = Color.White;  // Default color
-        //        }
-
-        //        // Append the text with the appropriate color
-        //        rtb.SelectionStart = rtb.TextLength;
-        //        rtb.SelectionLength = 0;
-        //        rtb.SelectionColor = color;
-        //        rtb.AppendText(part);
-        //        rtb.SelectionColor = rtb.ForeColor;
-        //    }
-        //}
+        */
+        public static List<string> FindJavaInstallations() {
+            var programFilesPath = @"C:\Program Files\";
+            var javaForks = new List<string> { "Java" , "Eclipse Adoptium" , "OpenJDK" , "Amazon Corretto" , "Zulu" , "Liberica" , "SapMachine" };
+            var directories = new List<string>();
+            foreach (var javaFork in javaForks) {
+                var forkPath = Path.Combine(programFilesPath , javaFork);
+                if (Directory.Exists(forkPath)) {
+                    directories.AddRange(Directory.GetDirectories(forkPath , "jdk*" , SearchOption.TopDirectoryOnly));
+                    directories.AddRange(Directory.GetDirectories(forkPath , "jre*" , SearchOption.TopDirectoryOnly));
+                }
+            }
+            return directories;
+        }
     }
 }

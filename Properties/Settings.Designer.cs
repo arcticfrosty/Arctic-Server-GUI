@@ -85,7 +85,7 @@ namespace Server_Wrapper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Java")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string java_path {
             get {
                 return ((string)(this["java_path"]));

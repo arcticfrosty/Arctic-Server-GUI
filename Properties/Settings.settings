@@ -18,7 +18,7 @@
       <Value Profile="(Default)">-Xmx{ramMax} -Xms{ramMin} -jar {serverJar} nogui</Value>
     </Setting>
     <Setting Name="java_path" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Java</Value>
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>
