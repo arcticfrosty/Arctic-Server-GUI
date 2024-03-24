@@ -81,7 +81,7 @@ namespace Server_Wrapper {
         }
         protected void StartServer() {
             if (process == null || process.HasExited) {
-                Stopwatch timer = new Stopwatch();
+                //Stopwatch timer = new Stopwatch();
                 string rawDir = AppDomain.CurrentDomain.BaseDirectory;
                 string dir = rawDir.Replace("\\" , "/");
                 if (dir.Contains(" ")) {
@@ -116,9 +116,12 @@ namespace Server_Wrapper {
                 if (string.IsNullOrEmpty(java_path)) {
                     MessageBox.Show("Java environment not found." +
                         "\nPlease set it in the Java setting." , "Error!" , MessageBoxButtons.OK , MessageBoxIcon.Error);
+                    statLabel.Invoke((MethodInvoker)delegate {
+                        statLabel.BackColor = Color.Red;
+                    });
                     return;
                 }
-                timer.Start();
+                //timer.Start();
                 int ramMinRaw = Properties.Settings.Default.ramMin;
                 int ramMaxRaw = Properties.Settings.Default.ramMax;
                 char ramUnit = Utils.getRamUnit();
@@ -161,12 +164,12 @@ namespace Server_Wrapper {
                     statLabel.Invoke((MethodInvoker)delegate {
                         statLabel.BackColor = Color.Red;
                     });
-                    timer.Stop();
-                    int elapsedTime = (int)(timer.ElapsedMilliseconds / 1000);
-                    if (elapsedTime < 60) {
-                        MessageBox.Show("Server Crashed!" +
-                            $"\nServer exited in {elapsedTime} seconds." , "Crashed!" , MessageBoxButtons.OK , MessageBoxIcon.Error);
-                    }
+                    //timer.Stop();
+                    //int elapsedTime = (int)(timer.ElapsedMilliseconds / 1000);
+                    //if (elapsedTime < 60) {
+                    //    MessageBox.Show("Server Crashed!" +
+                    //        $"\nServer exited in {elapsedTime} seconds." , "Crashed!" , MessageBoxButtons.OK , MessageBoxIcon.Error);
+                    //}
                 };
                 cmdHistory.Clear();
                 process.EnableRaisingEvents = true;
@@ -261,6 +264,7 @@ namespace Server_Wrapper {
         private void stopBtn_Click(object sender , EventArgs e) {
             if (process != null && !process.HasExited) {
                 process.StandardInput.WriteLine("stop");
+                process.StandardInput.WriteLine("end");
             } else {
                 MessageBox.Show("Server is offline!" , "Error!" ,
                     MessageBoxButtons.OK , MessageBoxIcon.Error);
@@ -269,6 +273,7 @@ namespace Server_Wrapper {
         private void restartBtn_Click(object sender , EventArgs e) {
             if (process != null && !process.HasExited) {
                 process.StandardInput.WriteLine("stop");
+                process.StandardInput.WriteLine("end");
                 process.WaitForExit(5000);
                 if (!process.HasExited) {
                     process.Kill();

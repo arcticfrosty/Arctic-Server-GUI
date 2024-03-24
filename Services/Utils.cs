@@ -65,14 +65,15 @@ namespace Server_Wrapper.Services {
         }
         */
         public static List<string> FindJavaInstallations() {
-            var programFilesPath = @"C:\Program Files\";
-            var javaForks = new List<string> { "Java" , "Eclipse Adoptium" , "OpenJDK" , "Amazon Corretto" , "Zulu" , "Liberica" , "SapMachine" };
-            var directories = new List<string>();
-            foreach (var javaFork in javaForks) {
-                var forkPath = Path.Combine(programFilesPath , javaFork);
+            string programFilesPath = @"C:\Program Files\";
+            List<string> javaForks = new List<string> { "Java" , "Eclipse Adoptium" , "OpenJDK" , "Amazon Corretto" , "Zulu" , "Liberica" , "SapMachine" };
+            List<string> directories = new List<string>();
+            foreach (string javaFork in javaForks) {
+                string forkPath = Path.Combine(programFilesPath , javaFork);
                 if (Directory.Exists(forkPath)) {
                     directories.AddRange(Directory.GetDirectories(forkPath , "jdk*" , SearchOption.TopDirectoryOnly));
                     directories.AddRange(Directory.GetDirectories(forkPath , "jre*" , SearchOption.TopDirectoryOnly));
+                    directories.AddRange(Directory.GetDirectories(forkPath , "zulu*" , SearchOption.TopDirectoryOnly));
                 }
             }
             return directories;
