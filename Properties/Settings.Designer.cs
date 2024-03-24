@@ -73,7 +73,7 @@ namespace Server_Wrapper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-Xmx{ramMax} -Xms{ramMin} -jar {serverJar} nogui")]
+        [global::System.Configuration.DefaultSettingValueAttribute("-Xms{ramMin} -Xmx{ramMax} -jar {serverJar} nogui")]
         public string jvm_args {
             get {
                 return ((string)(this["jvm_args"]));

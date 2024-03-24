@@ -39,6 +39,7 @@ namespace Server_Wrapper.Forms {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.javaPathList = new System.Windows.Forms.ComboBox();
+            this.flagBtn = new System.Windows.Forms.Button();
             this.jvm_context.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -136,6 +137,7 @@ namespace Server_Wrapper.Forms {
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.flagBtn);
             this.groupBox1.Controls.Add(this.flagtxtBox);
             this.groupBox1.Controls.Add(this.helpBtn);
             this.groupBox1.Controls.Add(this.resetBtn);
@@ -168,6 +170,17 @@ namespace Server_Wrapper.Forms {
             this.javaPathList.Name = "javaPathList";
             this.javaPathList.Size = new System.Drawing.Size(572, 21);
             this.javaPathList.TabIndex = 6;
+            // 
+            // flagBtn
+            // 
+            this.flagBtn.Location = new System.Drawing.Point(581, 204);
+            this.flagBtn.Name = "flagBtn";
+            this.flagBtn.Size = new System.Drawing.Size(120, 23);
+            this.flagBtn.TabIndex = 4;
+            this.flagBtn.Text = "Flags Generator";
+            this.flagBtn.UseVisualStyleBackColor = true;
+            this.flagBtn.Visible = false;
+            this.flagBtn.Click += new System.EventHandler(this.flagBtn_Click);
             // 
             // Jvm_args
             // 
@@ -206,5 +219,6 @@ namespace Server_Wrapper.Forms {
         private ToolStripMenuItem pasteToolStripMenuItem;
         private ToolStripMenuItem cutToolStripMenuItem;
         private ComboBox javaPathList;
+        private Button flagBtn;
     }
 }
