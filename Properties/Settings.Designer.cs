@@ -73,7 +73,8 @@ namespace Server_Wrapper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-Xms{ramMin} -Xmx{ramMax} -jar {serverJar} nogui")]
+        [global::System.Configuration.DefaultSettingValueAttribute("-Xms{ramMin} -Xmx{ramMax} --add-modules=jdk.incubator.vector -jar {serverJar} nog" +
+            "ui")]
         public string jvm_args {
             get {
                 return ((string)(this["jvm_args"]));

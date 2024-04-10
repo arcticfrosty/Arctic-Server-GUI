@@ -6,11 +6,11 @@ namespace Server_Wrapper.Forms {
             InitializeComponent();
         }
 
-        private void ghLink_LinkClicked(object sender , LinkLabelLinkClickedEventArgs e) {
+        private void ghLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
             System.Diagnostics.Process.Start("https://github.com/arcticfrosty");
         }
 
-        private void srcCodeLink_LinkClicked(object sender , LinkLabelLinkClickedEventArgs e) {
+        private void srcCodeLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
             System.Diagnostics.Process.Start("https://github.com/arcticfrosty/Arctic-Server-GUI");
         }
     }

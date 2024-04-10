@@ -42,10 +42,11 @@
             this.killBtn = new System.Windows.Forms.Button();
             this.scrollBox = new System.Windows.Forms.CheckBox();
             this.restartBtn = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.serv_Name = new System.Windows.Forms.Label();
             this.ramUsageLabel = new System.Windows.Forms.Label();
             this.ramBar = new System.Windows.Forms.ProgressBar();
             this.statLabel = new System.Windows.Forms.Label();
+            this.openServerFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.conMenu.SuspendLayout();
             this.mainStrip.SuspendLayout();
             this.SuspendLayout();
@@ -144,6 +145,7 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openServerFolderToolStripMenuItem,
             this.aboutToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -234,16 +236,16 @@
             this.restartBtn.UseVisualStyleBackColor = true;
             this.restartBtn.Click += new System.EventHandler(this.restartBtn_Click);
             // 
-            // label1
+            // serv_Name
             // 
-            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 27);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(168, 52);
-            this.label1.TabIndex = 13;
-            this.label1.Text = "Server Console";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.serv_Name.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.serv_Name.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.serv_Name.Location = new System.Drawing.Point(12, 27);
+            this.serv_Name.Name = "serv_Name";
+            this.serv_Name.Size = new System.Drawing.Size(168, 52);
+            this.serv_Name.TabIndex = 13;
+            this.serv_Name.Text = "Console";
+            this.serv_Name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ramUsageLabel
             // 
@@ -284,6 +286,13 @@
             this.statLabel.TabIndex = 18;
             this.statLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // openServerFolderToolStripMenuItem
+            // 
+            this.openServerFolderToolStripMenuItem.Name = "openServerFolderToolStripMenuItem";
+            this.openServerFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openServerFolderToolStripMenuItem.Text = "Open Server Folder";
+            this.openServerFolderToolStripMenuItem.Click += new System.EventHandler(this.openServerFolderToolStripMenuItem_Click);
+            // 
             // MainFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -292,7 +301,7 @@
             this.Controls.Add(this.statLabel);
             this.Controls.Add(this.ramBar);
             this.Controls.Add(this.ramUsageLabel);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.serv_Name);
             this.Controls.Add(this.restartBtn);
             this.Controls.Add(this.scrollBox);
             this.Controls.Add(this.killBtn);
@@ -335,10 +344,11 @@
         private System.Windows.Forms.Button restartBtn;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem flagsToolStripMenuItem;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label ramUsageLabel;
         private System.Windows.Forms.ProgressBar ramBar;
         private System.Windows.Forms.Label statLabel;
+        public System.Windows.Forms.Label serv_Name;
+        private System.Windows.Forms.ToolStripMenuItem openServerFolderToolStripMenuItem;
     }
 }
 

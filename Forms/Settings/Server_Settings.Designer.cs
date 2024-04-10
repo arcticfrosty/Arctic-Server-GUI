@@ -34,6 +34,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.serverFile = new System.Windows.Forms.TextBox();
             this.saveBtn = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.serv_Name = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -114,29 +116,31 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.serv_Name);
+            this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.serverFile);
             this.groupBox2.Location = new System.Drawing.Point(191, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(199, 46);
+            this.groupBox2.Size = new System.Drawing.Size(321, 46);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Server File";
+            this.groupBox2.Text = "Server";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 21);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.Size = new System.Drawing.Size(54, 13);
             this.label4.TabIndex = 6;
-            this.label4.Text = "Name";
+            this.label4.Text = "File Name";
             // 
             // serverFile
             // 
-            this.serverFile.Location = new System.Drawing.Point(47, 18);
+            this.serverFile.Location = new System.Drawing.Point(66, 18);
             this.serverFile.Name = "serverFile";
-            this.serverFile.Size = new System.Drawing.Size(146, 20);
+            this.serverFile.Size = new System.Drawing.Size(100, 20);
             this.serverFile.TabIndex = 6;
             this.serverFile.TabStop = false;
             // 
@@ -144,22 +148,40 @@
             // 
             this.saveBtn.Location = new System.Drawing.Point(191, 64);
             this.saveBtn.Name = "saveBtn";
-            this.saveBtn.Size = new System.Drawing.Size(199, 47);
+            this.saveBtn.Size = new System.Drawing.Size(321, 47);
             this.saveBtn.TabIndex = 2;
             this.saveBtn.Text = "Save";
             this.saveBtn.UseVisualStyleBackColor = true;
             this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(172, 21);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(35, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Name";
+            // 
+            // serv_Name
+            // 
+            this.serv_Name.Location = new System.Drawing.Point(213, 18);
+            this.serv_Name.Name = "serv_Name";
+            this.serv_Name.Size = new System.Drawing.Size(100, 20);
+            this.serv_Name.TabIndex = 6;
+            this.serv_Name.TabStop = false;
+            // 
             // Server_Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(402, 121);
+            this.ClientSize = new System.Drawing.Size(523, 121);
             this.Controls.Add(this.saveBtn);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(539, 160);
             this.Name = "Server_Settings";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -186,5 +208,7 @@
         private System.Windows.Forms.TextBox serverFile;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button saveBtn;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox serv_Name;
     }
 }

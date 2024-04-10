@@ -6,7 +6,7 @@ using System.Windows.Forms;
 namespace Server_Wrapper.Services {
     public class Utils {
 
-        public static void showFrm(Form frm , bool resize , bool diag) {
+        public static void showFrm(Form frm, bool resize, bool diag) {
             if (frm != null) {
                 frm.StartPosition = FormStartPosition.CenterScreen;
                 if (!resize) {
@@ -26,13 +26,13 @@ namespace Server_Wrapper.Services {
             if (ram > 0) {
                 switch (unit) {
                     case "GB":
-                        total = ram * 1024;
-                        break;
+                    total = ram * 1024;
+                    break;
                     case "MB":
-                        total = ram;
-                        break;
+                    total = ram;
+                    break;
                     default:
-                        throw new Exception("Unable to get RAM allocation.");
+                    throw new Exception("Unable to get RAM allocation.");
                 }
             } else {
                 throw new Exception("Unable to get RAM allocation.");
@@ -44,13 +44,13 @@ namespace Server_Wrapper.Services {
             char unit;
             switch (ramUnit) {
                 case "GB":
-                    unit = 'G';
-                    break;
+                unit = 'G';
+                break;
                 case "MB":
-                    unit = 'M';
-                    break;
+                unit = 'M';
+                break;
                 default:
-                    throw new Exception("Unable to get RAM unit.");
+                throw new Exception("Unable to get RAM unit.");
             }
             return unit;
         }
@@ -66,14 +66,14 @@ namespace Server_Wrapper.Services {
         */
         public static List<string> FindJavaInstallations() {
             string programFilesPath = @"C:\Program Files\";
-            List<string> javaForks = new List<string> { "Java" , "Eclipse Adoptium" , "OpenJDK" , "Amazon Corretto" , "Zulu" , "Liberica" , "SapMachine" };
+            List<string> javaForks = new List<string> { "Java", "Eclipse Adoptium", "OpenJDK", "Amazon Corretto", "Zulu", "Liberica", "SapMachine" };
             List<string> directories = new List<string>();
             foreach (string javaFork in javaForks) {
-                string forkPath = Path.Combine(programFilesPath , javaFork);
+                string forkPath = Path.Combine(programFilesPath, javaFork);
                 if (Directory.Exists(forkPath)) {
-                    directories.AddRange(Directory.GetDirectories(forkPath , "jdk*" , SearchOption.TopDirectoryOnly));
-                    directories.AddRange(Directory.GetDirectories(forkPath , "jre*" , SearchOption.TopDirectoryOnly));
-                    directories.AddRange(Directory.GetDirectories(forkPath , "zulu*" , SearchOption.TopDirectoryOnly));
+                    directories.AddRange(Directory.GetDirectories(forkPath, "jdk*", SearchOption.TopDirectoryOnly));
+                    directories.AddRange(Directory.GetDirectories(forkPath, "jre*", SearchOption.TopDirectoryOnly));
+                    directories.AddRange(Directory.GetDirectories(forkPath, "zulu*", SearchOption.TopDirectoryOnly));
                 }
             }
             return directories;
